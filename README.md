@@ -1,63 +1,79 @@
+# 🎲 Projeto: Sorteador de Números Secretos (Alura)
 
-# Aula 07 - Refatorando o Sorteio do Número Secreto
+## 📌 Descrição
 
-## ✅ Conteúdos abordados
+Este projeto foi desenvolvido durante o curso da **Alura** com o objetivo de praticar **JavaScript**, **HTML** e **CSS** de forma integrada.  
+O jogo consiste em sortear um **número secreto aleatório**, que o jogador deve adivinhar.  
+A cada tentativa, o programa fornece dicas se o número é **maior ou menor** que o chute feito pelo usuário.
 
-* [X] Refatoração de funções existentes
-* [X] Boas práticas para deixar o código mais legível e eficiente
-* [X] Melhoria no sorteio de números aleatórios
-* [X] Evitar repetição de valores em sorteios
-* [X] Garantir robustez e clareza no código
-
----
-
-## 💡 Descrição da aula
-
-Nesta aula, aprendemos a  **melhorar o código existente** , tornando-o mais  **eficiente e legível** .
-
-O foco foi na refatoração da função responsável por  **sortear o número secreto** , de forma a  **evitar que o mesmo número seja repetido em sorteios consecutivos** .
-
-Discutimos a importância de escrever funções mais  **robustas** , que além de cumprirem sua tarefa, também tratem situações que podem causar problemas na experiência do usuário.
-
-Exemplo do código refatorado:
-
-```javascript
-// Lista para armazenar números já sorteados
-let numerosSorteados = [];
-
-// Função que sorteia número secreto sem repetição
-function gerarNumeroAleatorio(max) {
-    let numeroEscolhido;
-
-    do {
-        numeroEscolhido = parseInt(Math.random() * max + 1);
-    } while (numerosSorteados.includes(numeroEscolhido));
-
-    numerosSorteados.push(numeroEscolhido);
-
-    return numeroEscolhido;
-}
-```
-Testando:
-
-```javascript
-let numero = gerarNumeroAleatorio(10);
-console.log(`Número sorteado: ${numero}`);
-```
----
-
-## 🧩 Desafios realizados
-
-* Criar uma função que garante que os números sorteados não se repitam.
-* Armazenar os números já sorteados em uma lista para referência futura.
-* Melhorar a legibilidade do código usando nomes de variáveis e funções descritivos.
-* Testar a função várias vezes para verificar que o mesmo número não aparece duas vezes.
+Além de implementar o jogo, o foco está em **boas práticas de programação**, **funções reutilizáveis** e na **refatoração do código** para deixá-lo mais limpo e eficiente.
 
 ---
 
-## 📌 O que aprendemos?
+## ✅ Funcionalidades
 
-* Como **refatorar funções** para deixá-las mais claras e reutilizáveis.
-* A importância de **evitar repetição de valores** em algoritmos de sorteio.
-* Como utilizar o **método `.includes()`** para verificar se um valor já está presente em uma lista.
-* Que **boas práticas de nomeação** tornam o código mais fácil de entender.
+- Geração de número secreto aleatório.  
+- Prevenção de repetição de números já sorteados.  
+- Comparação entre o **chute do usuário** e o **número secreto**.  
+- Exibição de mensagens dinâmicas na tela:  
+  - Quando o jogador acerta.  
+  - Quando erra e precisa tentar novamente.  
+- Contagem de tentativas realizadas.  
+- Possibilidade de reiniciar o jogo com um novo número secreto.  
+
+---
+
+## 🛠️ Tecnologias utilizadas
+
+- **HTML5** → Estrutura da página.  
+- **CSS3** → Estilização e layout do jogo.  
+- **JavaScript (ES6+)** → Lógica do sorteio e interatividade.  
+
+---
+
+## 📂 Estrutura do projeto
+
+📦 sorteador-numeros
+┣ 📜 index.html # Estrutura principal da aplicação
+┣ 📜 style.css # Estilos da interface
+┣ 📜 app.js # Lógica do sorteio e do jogo
+┗ 📜 README.md # Documentação do projeto
+
+
+---
+
+## 🚀 Como executar o projeto
+
+1. Clone este repositório ou baixe os arquivos.  
+2. Abra o arquivo `index.html` no navegador.  
+3. Digite um número no campo de entrada e clique em **Chutar**.  
+4. Continue jogando até descobrir o número secreto! 🎉  
+
+---
+
+## 🧩 Aprendizados
+
+Durante o desenvolvimento deste projeto, foram praticados os seguintes conceitos:
+
+- **Criação e chamada de funções em JavaScript**.  
+- Uso de **parâmetros** e **retorno de valores**.  
+- Manipulação de elementos no **DOM** com `querySelector` e `innerHTML`.  
+- **Refatoração de código** para melhor legibilidade.  
+- Geração de números aleatórios com `Math.random()`.  
+- Uso de **arrays** e do método `.includes()` para evitar repetição de números.  
+- Organização do código em arquivos separados (`HTML`, `CSS` e `JS`).  
+
+---
+
+## 🎯 Próximos passos (melhorias)
+
+- Adicionar níveis de dificuldade (fácil, médio, difícil).  
+- Implementar um sistema de ranking com pontuação.  
+- Melhorar o design da interface para deixar mais interativa.  
+- Tornar o jogo responsivo para dispositivos móveis.  
+
+---
+
+## 👨‍💻 Autor
+
+Projeto realizado como parte do curso da **Alura** por **Weslley**, em sua jornada de aprendizado em **Desenvolvimento de Software e Data Science**. 🚀  
