@@ -2,7 +2,7 @@
 
 
 // Número máximo para gerar o número aleatório
-const numeroMaximo = 10;
+const numeroMaximo = 100;
 
 // Compartamento inicial do código - Criação do Número Secreto Aleatório / Váriavel para armazenar o número de tentativas / Impressão da mensagem inicial do Programa
 let numerosSorteados = []
