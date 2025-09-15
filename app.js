@@ -1,86 +1,122 @@
+// Número máximo (ajuste aqui e o resto acompanha)
+const numeroMaximo = 50;
 
-
-
-// Número máximo para gerar o número aleatório
-const numeroMaximo = 100;
-
-// Compartamento inicial do código - Criação do Número Secreto Aleatório / Váriavel para armazenar o número de tentativas / Impressão da mensagem inicial do Programa
-let numerosSorteados = []
+// Estado do jogo
+let numerosSorteados = [];
 let numeroSecreto = gerarNumeroAleatorio();
-let tentativas = 1
-console.log(numeroSecreto)
-mensagemInicial();
+let tentativas = 1;
 
-// Função para modificar texto na tela
-function modificarTextoId(id, texto) {
-    document.getElementById(id).textContent = texto;
+// Sincroniza o <input> com o range
+const inputChute = document.getElementById('teste');
+inputChute.min = 1;
+inputChute.max = numeroMaximo;
+inputChute.value = ''; // começa vazio
+
+// Mensagem inicial
+mensagemInicial();
+console.log('[debug] número secreto:', numeroSecreto);
+
+// --------- Funções utilitárias ---------
+function setTextoById(id, texto) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = texto;
 }
-// Função para exibir texto na tela
-function exibirTextoNaTela(tag, texto) {
-    let campo = document.querySelector(tag);
-    campo.innerHTML = texto;
-    responsiveVoice.speak(texto, 'Brazilian Portuguese Female', { rate: 1.2 });
+
+function falar(texto) {
+    if (window.responsiveVoice) {
+        responsiveVoice.speak(texto, 'Brazilian Portuguese Female', { rate: 1.2 });
+    }
 }
-// Função para exibir a mensagem inicial
+
+function exibirTextoNoParagrafo(texto) {
+    // Usa o <p id="meu-paragrafo">
+    setTextoById('meu-paragrafo', texto);
+    falar(texto);
+}
+
 function mensagemInicial() {
-    exibirTextoNaTela('h1', 'Jogo do Número Secreto');
-    exibirTextoNaTela('p', `Escolha um número entre 1 e ${numeroMaximo}:`);
+    // Atualiza H1 e P de forma explícita
+    const titulo = 'Jogo do Número Secreto';
+    document.querySelector('h1').textContent = titulo;
+
+    const msg = `Escolha um número entre 1 e ${numeroMaximo}:`;
+    exibirTextoNoParagrafo(msg);
 }
-// Função de Geração do número secreto
+
+// Gera número sem repetir até esgotar o intervalo
 function gerarNumeroAleatorio() {
-    let numeroEscolhido = Math.floor(Math.random() * numeroMaximo + 1);
-    let quantidaDeElementosNaLista = numerosSorteados.length;
-    if (quantidaDeElementosNaLista == numeroMaximo) {
+    const numero = Math.floor(Math.random() * numeroMaximo) + 1;
+
+    if (numerosSorteados.length === numeroMaximo) {
+        // Reinicia a lista quando exaurir
         numerosSorteados = [];
     }
-    if (numerosSorteados.includes(numeroEscolhido)) {
+
+    if (numerosSorteados.includes(numero)) {
         return gerarNumeroAleatorio();
     } else {
-        numerosSorteados.push(numeroEscolhido);
-        return numeroEscolhido;
+        numerosSorteados.push(numero);
+        return numero;
     }
 }
-// Função para limpar o campo
-function limparCampo() {
-    chute = document.querySelector('input');
-    chute.value = ''
-}
-// Função principal
-function verificarChute() {
-    let chute = parseInt(document.querySelector('input').value);
-    let mensagem = `Você descobriu o número secreto com ${tentativas == 1 ? 'uma' : tentativas == 2 ? 'duas' : tentativas} tentativa${tentativas > 1 ? 's' : ''}!`;
 
-    if (isNaN(chute) || chute < 1 || chute > numeroMaximo) {
-        exibirTextoNaTela('p', `O número digitado é inválido ou está fora do intervalo permitido. 🚫`);
+function limparCampo() {
+    // Evita variável global acidental
+    const chute = document.querySelector('#teste');
+    chute.value = '';
+    chute.focus();
+}
+
+// --------- Regras do jogo ---------
+function verificarChute() {
+    const chute = parseInt(document.querySelector('#teste').value, 10);
+
+    if (Number.isNaN(chute) || chute < 1 || chute > numeroMaximo) {
+        exibirTextoNoParagrafo(`O número digitado é inválido ou está fora do intervalo permitido (1–${numeroMaximo}). 🚫`);
         return;
     }
 
     if (chute === numeroSecreto) {
-        exibirTextoNaTela('h1', `Parabéns! Você acertou o número Secreto.`);
-        exibirTextoNaTela('p', mensagem);
+        const tentativaTxt =
+            tentativas === 1 ? 'uma tentativa' :
+                tentativas === 2 ? 'duas tentativas' :
+                    `${tentativas} tentativas`;
+
+        document.querySelector('h1').textContent = 'Parabéns! Você acertou o número secreto.';
+        exibirTextoNoParagrafo(`Você descobriu o número secreto com ${tentativaTxt}! 🎉`);
+
         document.getElementById('chute').disabled = true;
         document.getElementById('reiniciar').disabled = false;
         document.getElementById('teste').disabled = true;
 
     } else if (chute > numeroSecreto) {
-        exibirTextoNaTela('p', `O número secreto é menor ⬇️.`);
+        exibirTextoNoParagrafo('O número secreto é menor ⬇️.');
         tentativas++;
         limparCampo();
+
     } else {
-        exibirTextoNaTela('p', `O número secreto é maior ⬆️.`);
+        exibirTextoNoParagrafo('O número secreto é maior ⬆️.');
         tentativas++;
         limparCampo();
     }
 }
-// Função para reiniciar o jogo
+
 function reiniciarJogo() {
     limparCampo();
     console.clear();
-    mensagemInicial();
+
     numeroSecreto = gerarNumeroAleatorio();
-    console.log(numeroSecreto);
     tentativas = 1;
-    document.getElementById('chute').removeAttribute('disabled');
-    document.getElementById('teste').removeAttribute('disabled');
-    document.getElementById('reiniciar').setAttribute('disabled', true)
+
+    document.getElementById('chute').disabled = false;
+    document.getElementById('teste').disabled = false;
+    document.getElementById('reiniciar').disabled = true;
+
+    mensagemInicial();
+    console.log('[debug] número secreto:', numeroSecreto);
 }
+
+// Exponho funções para o onclick inline do HTML
+window.verificarChute = verificarChute;
+window.reiniciarJogo = reiniciarJogo;
