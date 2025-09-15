@@ -1,5 +1,5 @@
 // Número máximo (ajuste aqui e o resto acompanha)
-const numeroMaximo = 50;
+const numeroMaximo = 10;
 
 // Estado do jogo
 let numerosSorteados = [];
