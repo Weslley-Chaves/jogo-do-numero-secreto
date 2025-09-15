@@ -1,8 +1,11 @@
+# Extensões ignoradas
+
+*.txt
+*.py
+
 # Created by https://www.toptal.com/developers/gitignore/api/python
 # Edit at https://www.toptal.com/developers/gitignore?templates=python
 
-### Python ###
-*.py
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
